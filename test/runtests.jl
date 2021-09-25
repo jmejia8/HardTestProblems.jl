@@ -1,19 +1,18 @@
 using HardTestProblems
 using Test
 
-@testset "RW-MOP-2021" begin
-    funcs = [ cec2021_f1, cec2021_f2, cec2021_f3, cec2021_f4, cec2021_f5,
-              cec2021_f6, cec2021_f7, cec2021_f8, cec2021_f9, cec2021_f10 ]
-
-    for (fnum, f) in enumerate(funcs)
+@testset "CEC2020" begin
+    for fnum in 1:10
         for D in [5,10,15,20,30,50,100]
+            f, conf = get_cec2020_problem(fnum)
             F =  f(rand(77, D))
-            fmin = get_cec2021_minimum(fnum)
+            fmin = conf[:minimum]
             @test sum(F .< fmin) == 0 
         end
     end
+end
     
-    return
+@testset "RW-MOP-2021" begin
     for i in 1:50
         # objective function and problem configuration
         f, conf = get_RW_MOP_problem(i)
