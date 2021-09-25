@@ -13,11 +13,12 @@ function load_data_from_dict(fnum, D)
     fnums = [1,2,3,7,4,16,6,22,24,25]
     # dimensions = [2,5,10,15,20,30,50,100]
 
-    fnum = fnums[fnum]
+    fnum_= fnums[fnum]
 
-    if D==2&&(fnum==4||fnum==16||fnum==6)
+    if D==2&&(fnum_==4||fnum_==16||fnum_==6)
         error("function $fnum not implemented for D = $D.")
     end
+    fnum = fnum_
 
     str_fnum = string(fnum)
     str_D = string(D)

@@ -59,28 +59,28 @@ function schwefel(X)
     mask = Z .< -500 
     temp = mod.(abs.(Z[mask]),500) .- 500
     g[mask] = temp.*sin.(sqrt.(abs.(temp))) - (Z[mask] .- 500)/10000/D
-    return 1100 .+ 418.9829*D .- sum(g, dims = 2)
+    return 418.9829*D .- sum(g, dims = 2)
 end
 
 function bi_rastrigin(X, O, M)
     D = size(X,2)
     O = O[1,1:D]'
     s   = 1 - 1/(2*sqrt(D+20)-8.2)
-    mu0 = 2.5
-    mu1 = -sqrt((mu0^2-1)/s)
+    μ0 = 2.5
+    μ1 = -sqrt((μ0^2-1)/s)
     Y   = (X .- O)/10
-    tmp = 2O.*Y .+ mu0
-    Z   = (tmp .- mu0) * M'
-    F = 700 .+ min.(sum((tmp .- mu0).^2, dims=2), D .+ s*sum((tmp .- mu1).^2, dims = 2)) 
+    tmp = 2sign.(O).*Y .+ μ0
+    Z   = (tmp .- μ0) * M'
+    F = 700 .+ min.(sum((tmp .- μ0).^2, dims=2), D .+ s*sum((tmp .- μ1).^2, dims = 2)) 
     F += 10*(D .- sum(cos.(2π*Z), dims = 2))
     return F
 end
 
 function rosenbrock_plus_griewangk(X)
-    Y = 0.05X;
+    Y = 0.05X
     Z = Y .+ 1;
-    temp   = 100*(Z.^2-Z[:, vcat(2:end,1)]).^2 + (Z .- 1).^2;
-    return 1900 .+ sum(temp.^2/4000-cos.(temp) .+ 1, dims = 2);
+    f5   = 100*(Z.^2-Z[:, vcat(2:end,1)]).^2 + (Z .- 1).^2
+    return 1900 .+ sum(f5.^2/4000-cos.(f5) .+ 1, dims = 2)
 end
 
 function hybrid1(X, S)
@@ -162,7 +162,7 @@ function composition3(X, O, M)
     end
 
     W = W ./ sum(W, dims=2);
-    return 5500 .+ sum(W.*(λ.*F .+ bias), dims=2);
+    return 2500 .+ sum(W.*(λ.*F .+ bias), dims=2);
 end
 
 
@@ -176,7 +176,7 @@ end
 function cec2020_f2(x)
     D = (size(x,2))
     o, M, _ = load_data_from_dict(2, D)
-    schwefel(shift_and_rotate(x, o, M))
+    1100 .+ schwefel(shift_and_rotate(x, o, M))
 end
 
 function cec2020_f3(x)
