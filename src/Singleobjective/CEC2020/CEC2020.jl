@@ -1,12 +1,32 @@
+const data = BSON.load(joinpath(@__DIR__, "data.bson"))
+
 # load all stuff here
-const o = zeros(0)
-const M = zeros(0,0)
+
+function load_data_from_dict(fnum, D)
+    fnums = [1,2,3,7,4,16,6,22,24,25]
+    # dimensions = [2,5,10,15,20,30,50,100]
+
+    fnum = fnums[fnum]
+
+    if D==2&&(fnum==4||fnum==16||fnum==6)
+        error("function $fnum not implemented for D = $D.")
+    end
+    
+    o = data["o_fnum$(fnum)_D$D"]
+    M = data["M_fnum$(fnum)_D$D"]
+    S = data["S_fnum$(fnum)_D$D"]
+
+    return o, M, S
+end
 
 
-shift_and_rotate(X, o, M) = (X .- o)*M'
+
+
+shift_and_rotate(X, o, M) = (X .- o[1,1:size(X, 2)]')*M'
+
 function rastrigin(X)
     X = 0.0512*X;
-    return sum(X.^2 - 10cos.(2π*X) .+ 10, 2);
+    return sum(X.^2 - 10cos.(2π*X) .+ 10, dims = 2);
 end
 
 elliptic(X) = sum((1e6).^((0:size(X,2)-1)'/(size(X,2)-1+1e-6)) .* X.^2, dims = 2)
@@ -14,7 +34,7 @@ elliptic(X) = sum((1e6).^((0:size(X,2)-1)'/(size(X,2)-1+1e-6)) .* X.^2, dims = 2
 function schaffer(X)
     X = X .^ 2
     mask = vcat(2:size(X, 2),1)
-    return sum(0.5.+(sin.(sqrt.(X.+X[:,mask])).^2-0.5)./(1 .+ 0.001*(X+X[:,mask])).^2, dims = 2)
+    return sum(0.5.+(sin.(sqrt.(X.+X[:,mask])).^2 .-0.5)./(1 .+ 0.001*(X+X[:,mask])).^2, dims = 2)
 end
 
 function HGBat(X)
@@ -26,64 +46,74 @@ end
 
 function rosenbrock(X)
     X = 0.02048*X .+ 1;
-    sum(100*(X[:,1:end-1].^2-X[:,2:end]).^2+(X[:,1:end-1]-1).^2, dims = 2);
+    sum(100*(X[:,1:end-1].^2-X[:,2:end]).^2+(X[:,1:end-1] .- 1).^2, dims = 2);
 end
 
 function griewank(X)
-    X = 6*X;
-    return sum(X.^2,dims=2)/4000 - prod(cos.(X)./sqrt.(1:size(X,2)), dims=2) .+ 1;
+    X = 6X;
+    return sum(X.^2,dims=2)/4000 - prod(cos.(X) ./ sqrt.(1:size(X,2))', dims=2) .+ 1;
 end
 
 ackley(X) = -20exp.(-0.2*sqrt.(mean(X.^2,dims=2))) - exp.(mean(cos.(2*pi*X),dims=2)) .+(20 + exp(1))
 
+function happycat(X)
+    X = 0.05*X;
+    sq = sum(X.^2, dims=2)
+    D = size(X,2)
+    return abs.(sq.-D).^0.25 + (0.5*sq+sum(X,dims=2))/D .+ 0.5;
+end
+
+discus(X) = 1e6*X[:,1].^2 + sum(X[:,2:end].^2, dims=2);
+
 ########################3
 
 # base function here
-bent_cigar(X) = 100 .+ X[:,1].^2 + 1e6*sum(X[:,2:end].^2,2)
+bent_cigar(X) = 100 .+ X[:,1].^2 + 1e6*sum(X[:,2:end].^2, dims = 2)
 
 function schwefel(X)
     D = size(X,2)
-    Z = 10X + 4.2097e2
+    Z = 10X .+ 4.2097e2
     g = Z .* sin.(sqrt.(abs.(Z)))
     mask = Z .> 500
-    temp = 500 - mod.(Z[mask],500)
-    g[mask] = temp.*sin(sqrt(abs(temp))) - (Z[mask]-500).^2/10000/D
+    temp = 500 .- mod.(Z[mask],500)
+    g[mask] = temp.*sin.(sqrt.(abs.(temp))) - (Z[mask].-500).^2/10000/D
 
     mask = Z .< -500 
-    temp = mod(abs(Z[mask]),500) - 500
+    temp = mod.(abs.(Z[mask]),500) .- 500
     g[mask] = temp.*sin.(sqrt.(abs.(temp))) - (Z[mask] .- 500)/10000/D
-    return 1100 + 418.9829*D .- sum(g,2)
+    return 1100 .+ 418.9829*D .- sum(g, dims = 2)
 end
 
 function bi_rastrigin(X, O, M)
     D = size(X,2)
+    O = O[1,1:D]'
     s   = 1 - 1/(2*sqrt(D+20)-8.2)
     mu0 = 2.5
     mu1 = -sqrt((mu0^2-1)/s)
     Y   = (X .- O)/10
     tmp = 2O.*Y .+ mu0
     Z   = (tmp .- mu0) * M'
-    F = 700 .+ min.(sum((tmp-mu0).^2, dims=2), D+s*sum((tmp-mu1).^2, dims = 2)) 
-    F += 10*(D - sum(cos.(2π*Z), dims = 2))
+    F = 700 .+ min.(sum((tmp .- mu0).^2, dims=2), D .+ s*sum((tmp .- mu1).^2, dims = 2)) 
+    F += 10*(D .- sum(cos.(2π*Z), dims = 2))
     return F
 end
 
 function rosenbrock_plus_griewangk(X)
     Y = 0.05X;
-    Z = Y + 1;
-    temp   = 100*(Z.^2-Z[:, vcat(2:end,1)]).^2 + (Z-1).^2;
-    return 1900 .+ sum(temp.^2/4000-cos(temp)+1, dims = 2);
+    Z = Y .+ 1;
+    temp   = 100*(Z.^2-Z[:, vcat(2:end,1)]).^2 + (Z .- 1).^2;
+    return 1900 .+ sum(temp.^2/4000-cos.(temp) .+ 1, dims = 2);
 end
 
-function hybrid1(X, masks)
-    1700 .+ schwefel( Z[:, masks[1]]) .+ rastrigin(Z[:, masks[2]]) .+ elliptic( Z[:, masks[3]])
+function hybrid1(X, S)
+    1700 .+ schwefel( X[:, S[1]]) .+ rastrigin(X[:, S[2]]) .+ elliptic(X[:, S[3]])
 end
-function hybrid2(X, masks)
+function hybrid2(X, S)
     return 1600 .+ 
-    schaffer(Z[:,masks[1]]) .+
-    HGBat(Z[:,masks[2]]) .+
-    rosenbrock(Z[:,mask[3]]) .+
-    schwefel(Z[:,mask[4]])
+    schaffer(X[:,S[1]]) .+
+    HGBat(X[:,S[2]]) .+
+    rosenbrock(X[:,S[3]]) .+
+    schwefel(X[:,S[4]])
 end
 
 function hybrid3(Z, S)
@@ -95,38 +125,42 @@ function hybrid3(Z, S)
     elliptic(Z[:,S[5]])
 end
 
-function composition1(X)
+function composition1(X, O, M)
     λ  = [1 10 1]
     δ  = [10 20 30]
     bias   = [0 100 200]
-    func   = [rastrigin, griewank, schwefel]
     W      = zeros(size(X,1),3);
     F      = zeros(size(W));
-    D = size(X,1)
+    D = size(X,2)
 
-    for i = 1 : size(W,2)
+    for (i, f) in enumerate([rastrigin, griewank, schwefel])
+        o = O[i,1:D]'
         tmp    = sum((X .- o).^2, dims = 2)
-        W[:,i] = 1./(sqrt.(tmp) .+ 1e-10) .* exp.(-tmp/2/D/δ[i]^2)
-        F[:,i] = func[i]((X-O[i,1:size(X,2)])*M[(i-1)*D+1:i*D,:]')
+        W[:,i] = 1 ./ (sqrt.(tmp) .+ 1e-10) .* exp.(-tmp/2/D/δ[i]^2)
+        F[:,i] = f((X .- o)*M[(i-1)*D+1:i*D,:]')
     end
 
     W = W ./ sum(W, dims=2);
     return 2200 .+ sum(W.*(λ.*F .+ bias), dims=2);
 end
 
-function composition2(X)
+
+function composition2(X, O, M)
     λ = [10 1e-6 10 1]
     δ  = [10 20 30 40]
     bias   = [0 100 200 300]
-    func   = [ackley,elliptic,griewank,rastrigin]
+    
     W      = zeros(size(X,1),4)
     F      = zeros(size(W))
-    D = size(X,1)
+    D = size(X,2)
     
-    for i = 1 : size(W,2)
-        tmp    = sum((X .- o).^2, dims = 2)
-        W[:,i] = 1./(sqrt.(tmp) .+ 1e-10) .* exp.(-tmp/2/D/δ[i]^2)
-        F[:,i] = func[i]((X-O[i,1:size(X,2)])*M[(i-1)*D+1:i*D,:]')
+    for (i, f) in enumerate([ackley,elliptic,griewank,rastrigin])
+        o = O[i,1:D]'
+        Z = (X .- o)
+        M_ = M[(i-1)*D+1:i*D,:]'
+        tmp    = sum(Z.^2, dims = 2)
+        W[:,i] = 1 ./ (sqrt.(tmp) .+ 1e-10) .* exp.(-tmp/2/D/δ[i]^2)
+        F[:,i] = f(Z*M_)
     end
 
     W = W ./ sum(W, dims=2);
@@ -134,19 +168,19 @@ function composition2(X)
 end
 
 
-function composition3(X)
+function composition3(X, O, M)
     λ = [10 1 10 1e-6 1]
     δ  = [10 20 30 40 50]
     bias   = [0 100 200 300 400]
-    func   = [rastrigin,happycat,ackley,discus,rosenbrock]
     W      = zeros(size(X,1),5)
     F      = zeros(size(W))
-    D = size(X,1)
+    D = size(X,2)
 
-    for i = 1 : size(W,2)
+    for (i, f) in enumerate([rastrigin,happycat,ackley,discus,rosenbrock])
+        o = O[i,1:D]'
         tmp    = sum((X .- o).^2, dims = 2)
-        W[:,i] = 1./(sqrt.(tmp) .+ 1e-10) .* exp.(-tmp/2/D/δ[i]^2)
-        F[:,i] = func[i]((X-O[i,1:size(X,2)])*M[(i-1)*D+1:i*D,:]')
+        W[:,i] = 1 ./ (sqrt.(tmp) .+ 1e-10) .* exp.(-tmp/2/D/δ[i]^2)
+        F[:,i] = f((X .- o)*M[(i-1)*D+1:i*D,:]')
     end
 
     W = W ./ sum(W, dims=2);
@@ -155,16 +189,112 @@ end
 
 
 
+function cec2021_f1(x)
+    D = (size(x,2))
+    o, M, _ = load_data_from_dict(1, D)
+    bent_cigar(shift_and_rotate(x, o, M))
+end
 
-# wrappers
-cec2021_f1(x) = bent_cigar(shift_and_rotate(x, o, M))
-cec2021_f2(x) = schwefel(shift_and_rotate(x, o, M))
-cec2021_f3(x) = bi_rastrigin(x, o, M)
-cec2021_f4(x) = rosenbrock_plus_griewangk(shift_and_rotate(x, o, M))
-cec2021_f5(x) = hybrid1(shift_and_rotate(x, o, M), masks)
-cec2021_f6(x) = hybrid2(shift_and_rotate(x, o, M), masks)
-cec2021_f7(x) = hybrid3(shift_and_rotate(x, o, M), masks)
-cec2021_f8(x) = composition1(shift_and_rotate(x, o, M), masks)
-cec2021_f9(x) = composition2(shift_and_rotate(x, o, M), masks)
-cec2021_f10(x) = composition3(shift_and_rotate(x, o, M), masks)
-# pending the 9th function
+function cec2021_f2(x)
+    D = (size(x,2))
+    o, M, _ = load_data_from_dict(2, D)
+    schwefel(shift_and_rotate(x, o, M))
+end
+
+function cec2021_f3(x)
+    D = (size(x,2))
+    o, M, _ = load_data_from_dict(3, D)
+    bi_rastrigin(x, o, M)
+end
+
+function cec2021_f4(x) 
+    D = (size(x,2))
+    o, M, _ = load_data_from_dict(4, D)
+    rosenbrock_plus_griewangk(shift_and_rotate(x, o, M))
+end
+
+function cec2021_f5(x) 
+    D = (size(x,2))
+    o, M, S_ = load_data_from_dict(5, D)
+    p     = ceil.(Int, D*[0.3, 0.3, 0.4])
+    p[1]  = D - sum(p[2:end])
+    p     = vcat(0,cumsum(p))
+    S = [S_[p[i]+1:p[i+1]] for i in 1:length(p)-1]
+    hybrid1(shift_and_rotate(x, o, M), S)
+end
+
+function cec2021_f6(x) 
+    D = size(x,2)
+    o, M, S_ = load_data_from_dict(6, D)
+
+    if D == 5
+        p = [1, 1, 1, 2]
+    else
+        p = ceil.(Int, D*[0.2, 0.2, 0.3, 0.3])
+        p[1]  = D - sum(p[2:end])
+    end
+    
+    p     = vcat(0,cumsum(p))
+    S = [S_[p[i]+1:p[i+1]] for i in 1:length(p)-1]
+
+    hybrid2(shift_and_rotate(x, o, M), S)
+end
+
+function cec2021_f7(x) 
+    D = (size(x,2))
+    o, M, S_ = load_data_from_dict(7, D)
+
+    if D == 5
+        p = ones(Int, 5)
+    else
+        p = ceil.(Int, D*[0.1, 0.2, 0.2, 0.2, 0.3])
+        p[1]  = D - sum(p[2:end])
+    end
+    
+    p     = vcat(0,cumsum(p))
+    S = [S_[p[i]+1:p[i+1]] for i in 1:length(p)-1]
+    hybrid3(shift_and_rotate(x, o, M), S)
+end
+
+function cec2021_f8(x) 
+    D = (size(x,2))
+    O, M, _ = load_data_from_dict(8, D)
+    composition1(x, O, M)
+end
+
+function cec2021_f9(x) 
+    D = (size(x,2))
+    O, M, _ = load_data_from_dict(9, D)
+    composition2(x, O, M)
+end
+
+function cec2021_f10(x)
+    D = (size(x,2))
+    O, M, _ = load_data_from_dict(10, D)
+    composition3(x, O, M)
+end
+
+cec2021_f1(x::AbstractVector{T}) where T <: Real = cec2021_f1(x')[1]
+cec2021_f2(x::AbstractVector{T}) where T <: Real = cec2021_f2(x')[1]
+cec2021_f3(x::AbstractVector{T}) where T <: Real = cec2021_f3(x')[1]
+cec2021_f4(x::AbstractVector{T}) where T <: Real = cec2021_f4(x')[1]
+cec2021_f5(x::AbstractVector{T}) where T <: Real = cec2021_f5(x')[1]
+cec2021_f6(x::AbstractVector{T}) where T <: Real = cec2021_f6(x')[1]
+cec2021_f7(x::AbstractVector{T}) where T <: Real = cec2021_f7(x')[1]
+cec2021_f8(x::AbstractVector{T}) where T <: Real = cec2021_f8(x')[1]
+cec2021_f9(x::AbstractVector{T}) where T <: Real = cec2021_f9(x')[1]
+cec2021_f10(x::AbstractVector{T}) where T <: Real = cec2021_f10(x')[1]
+
+# function get_cec2021_minimizer(fnum, D)
+#     fnums = [1,2,3,7,4,16,6,22,24,25]
+#     fnum = fnums[fnum]
+#     return data["o_fnum$(fnum)_D$D"][1:D]
+# end
+
+
+get_cec2021_minimum(fnum) = [100,1100,700,1900,1700,1600,2100,2200,2400,2500][fnum]
+
+
+export cec2021_f1, cec2021_f2, cec2021_f3, cec2021_f4, cec2021_f5
+export cec2021_f6, cec2021_f7, cec2021_f8, cec2021_f9, cec2021_f10
+export  get_cec2021_minimum
