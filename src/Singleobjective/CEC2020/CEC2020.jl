@@ -1,26 +1,4 @@
-const data = BSON.load(joinpath(@__DIR__, "data.bson"))
-
-# load all stuff here
-
-function load_data_from_dict(fnum, D)
-    fnums = [1,2,3,7,4,16,6,22,24,25]
-    # dimensions = [2,5,10,15,20,30,50,100]
-
-    fnum = fnums[fnum]
-
-    if D==2&&(fnum==4||fnum==16||fnum==6)
-        error("function $fnum not implemented for D = $D.")
-    end
-    
-    o = data["o_fnum$(fnum)_D$D"]
-    M = data["M_fnum$(fnum)_D$D"]
-    S = data["S_fnum$(fnum)_D$D"]
-
-    return o, M, S
-end
-
-
-
+include("attributes.jl")
 
 shift_and_rotate(X, o, M) = (X .- o[1,1:size(X, 2)]')*M'
 
@@ -189,31 +167,31 @@ end
 
 
 
-function cec2021_f1(x)
+function cec2020_f1(x)
     D = (size(x,2))
     o, M, _ = load_data_from_dict(1, D)
     bent_cigar(shift_and_rotate(x, o, M))
 end
 
-function cec2021_f2(x)
+function cec2020_f2(x)
     D = (size(x,2))
     o, M, _ = load_data_from_dict(2, D)
     schwefel(shift_and_rotate(x, o, M))
 end
 
-function cec2021_f3(x)
+function cec2020_f3(x)
     D = (size(x,2))
     o, M, _ = load_data_from_dict(3, D)
     bi_rastrigin(x, o, M)
 end
 
-function cec2021_f4(x) 
+function cec2020_f4(x) 
     D = (size(x,2))
     o, M, _ = load_data_from_dict(4, D)
     rosenbrock_plus_griewangk(shift_and_rotate(x, o, M))
 end
 
-function cec2021_f5(x) 
+function cec2020_f5(x) 
     D = (size(x,2))
     o, M, S_ = load_data_from_dict(5, D)
     p     = ceil.(Int, D*[0.3, 0.3, 0.4])
@@ -223,7 +201,7 @@ function cec2021_f5(x)
     hybrid1(shift_and_rotate(x, o, M), S)
 end
 
-function cec2021_f6(x) 
+function cec2020_f6(x) 
     D = size(x,2)
     o, M, S_ = load_data_from_dict(6, D)
 
@@ -240,7 +218,7 @@ function cec2021_f6(x)
     hybrid2(shift_and_rotate(x, o, M), S)
 end
 
-function cec2021_f7(x) 
+function cec2020_f7(x) 
     D = (size(x,2))
     o, M, S_ = load_data_from_dict(7, D)
 
@@ -256,45 +234,36 @@ function cec2021_f7(x)
     hybrid3(shift_and_rotate(x, o, M), S)
 end
 
-function cec2021_f8(x) 
+function cec2020_f8(x) 
     D = (size(x,2))
     O, M, _ = load_data_from_dict(8, D)
     composition1(x, O, M)
 end
 
-function cec2021_f9(x) 
+function cec2020_f9(x) 
     D = (size(x,2))
     O, M, _ = load_data_from_dict(9, D)
     composition2(x, O, M)
 end
 
-function cec2021_f10(x)
+function cec2020_f10(x)
     D = (size(x,2))
     O, M, _ = load_data_from_dict(10, D)
     composition3(x, O, M)
 end
 
-cec2021_f1(x::AbstractVector{T}) where T <: Real = cec2021_f1(x')[1]
-cec2021_f2(x::AbstractVector{T}) where T <: Real = cec2021_f2(x')[1]
-cec2021_f3(x::AbstractVector{T}) where T <: Real = cec2021_f3(x')[1]
-cec2021_f4(x::AbstractVector{T}) where T <: Real = cec2021_f4(x')[1]
-cec2021_f5(x::AbstractVector{T}) where T <: Real = cec2021_f5(x')[1]
-cec2021_f6(x::AbstractVector{T}) where T <: Real = cec2021_f6(x')[1]
-cec2021_f7(x::AbstractVector{T}) where T <: Real = cec2021_f7(x')[1]
-cec2021_f8(x::AbstractVector{T}) where T <: Real = cec2021_f8(x')[1]
-cec2021_f9(x::AbstractVector{T}) where T <: Real = cec2021_f9(x')[1]
-cec2021_f10(x::AbstractVector{T}) where T <: Real = cec2021_f10(x')[1]
-
-# function get_cec2021_minimizer(fnum, D)
-#     fnums = [1,2,3,7,4,16,6,22,24,25]
-#     fnum = fnums[fnum]
-#     return data["o_fnum$(fnum)_D$D"][1:D]
-# end
+cec2020_f1(x::AbstractVector{T}) where T <: Real = cec2020_f1(x')[1]
+cec2020_f2(x::AbstractVector{T}) where T <: Real = cec2020_f2(x')[1]
+cec2020_f3(x::AbstractVector{T}) where T <: Real = cec2020_f3(x')[1]
+cec2020_f4(x::AbstractVector{T}) where T <: Real = cec2020_f4(x')[1]
+cec2020_f5(x::AbstractVector{T}) where T <: Real = cec2020_f5(x')[1]
+cec2020_f6(x::AbstractVector{T}) where T <: Real = cec2020_f6(x')[1]
+cec2020_f7(x::AbstractVector{T}) where T <: Real = cec2020_f7(x')[1]
+cec2020_f8(x::AbstractVector{T}) where T <: Real = cec2020_f8(x')[1]
+cec2020_f9(x::AbstractVector{T}) where T <: Real = cec2020_f9(x')[1]
+cec2020_f10(x::AbstractVector{T}) where T <: Real = cec2020_f10(x')[1]
 
 
-get_cec2021_minimum(fnum) = [100,1100,700,1900,1700,1600,2100,2200,2400,2500][fnum]
-
-
-export cec2021_f1, cec2021_f2, cec2021_f3, cec2021_f4, cec2021_f5
-export cec2021_f6, cec2021_f7, cec2021_f8, cec2021_f9, cec2021_f10
-export  get_cec2021_minimum
+export cec2020_f1, cec2020_f2, cec2020_f3, cec2020_f4, cec2020_f5
+export cec2020_f6, cec2020_f7, cec2020_f8, cec2020_f9, cec2020_f10
+export  get_cec2020_minimum, get_cec2020_problem
