@@ -6,7 +6,7 @@ include("power-system-problems.jl")
 include("process-design-and-synthesis.jl")
 
 # Mechanical problems
-export pressure_vessal, 
+export pressure_vessel, 
 vibrating_platform,
 two_bar_Truss_design_problems, 
 weldan_beam_design,

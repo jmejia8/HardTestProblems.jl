@@ -7,7 +7,7 @@ See https://github.com/P-N-Suganthan/2021-RW-MOP
 
 const NAME_OF_PROBLEMS_RW_MOP_2021 = [
                        # Mechanical problems
-                       "pressure_vessal", 
+                       "pressure_vessel", 
                        "vibrating_platform",
                        "two_bar_Truss_design_problems", 
                        "weldan_beam_design",

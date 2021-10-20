@@ -4,7 +4,7 @@
 round5(x) = floor(Int, x + 0.5)
 
 # 1
-function pressure_vessal(x)
+function pressure_vessel(x)
     ## Pressure Vessal Problems
     x1 = round5(x[1]);
     x2 = round5(x[2]);
