@@ -20,7 +20,8 @@ julia> import Pkg; Pkg.add(url="https://github.com/jmejia8/HardTestProblems.jl.g
 - [x] [RW-MOP-2021](https://github.com/P-N-Suganthan/2021-RW-MOP)
       Real world multi-objective Constrained Optimization Test Suite.
 - [x] [CEC2020-BC-SO](https://github.com/P-N-Suganthan/2020-Bound-Constrained-Opt-Benchmark)
-      Bound-constrained test problems for single objective optimization.
+      Bound-constrained test problems for single-objective optimization.
+- [x] [SMD](#) Scalable test problems for single-objective bilevel optimization.
 - [ ] [CEC2017](https://github.com/P-N-Suganthan/CEC2017)   Competition on Constrained Real-Parameter Optimization.
 
 ## Usage
