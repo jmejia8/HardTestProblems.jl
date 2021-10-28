@@ -253,28 +253,38 @@ function SMD_ranges(fno, ulDim, llDim)
     return bounds_ul, bounds_ll
 end
 
-function SMD_get_problem(fnum; ulDim = 2, llDim = 3)
+"""
+    SMD_get_problem(fnum; uldim = 2, lldim = 3)
+
+Return upper and lower level objective function, and the problem configuration in
+a dictionary.
+"""
+function SMD_get_problem(fnum; uldim = 2, lldim = 3)
     
     F = eval(Symbol("SMD"*string(fnum) * "_leader"))
     f = eval(Symbol("SMD"*string(fnum) * "_follower"))
 
     optimum = eval(Symbol("SMD"*string(fnum) * "_optimum"))
 
-    x, y = optimum(ulDim, llDim)
+    x, y = optimum(uldim, lldim)
 
     Fmin,G,H = F(x,y)
     fmin,g,h = f(x,y)
 
 
-    bounds_ul, bounds_ll = SMD_ranges(fnum, ulDim, llDim)
+    bounds_ul, bounds_ll = SMD_ranges(fnum, uldim, lldim)
 
     # upperMember, lowerMember
     conf = Dict(:xmin => bounds_ul[:,1],
                 :xmax => bounds_ul[:,2],
                 :ymin => bounds_ll[:,1],
                 :ymax => bounds_ll[:,2],
+                :xbest => x,
+                :ybest => y,
                 :leader_optimum => Fmin,
                 :follower_optimum => fmin,
+                :lldim => lldim,
+                :uldim => uldim,
                 :n_inequality_leader => length(G),
                 :n_equality_leader => 0,
                 :n_inequality_follower => length(g),

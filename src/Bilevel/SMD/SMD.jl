@@ -22,7 +22,8 @@ function SMD1_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
     #
-    functionValue,equalityConstrVals,inequalityConstrVals
+    # functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 
 function SMD2_leader(xu, xl)
@@ -45,7 +46,7 @@ function SMD2_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD3_leader(xu, xl)
 
@@ -69,7 +70,7 @@ function  SMD3_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD4_leader(xu, xl)
 
@@ -92,7 +93,7 @@ function  SMD4_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD5_leader(xu, xl)
 
@@ -121,7 +122,7 @@ function  SMD5_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD6_leader(xu, xl)
 
@@ -145,7 +146,7 @@ function  SMD6_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD7_leader(xu, xl)
 
@@ -169,7 +170,7 @@ function  SMD7_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD8_leader(xu, xl)
 
@@ -197,7 +198,7 @@ function  SMD8_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD9_leader(xu, xl)
 
@@ -221,7 +222,7 @@ function  SMD9_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD10_leader(xu, xl)
 
@@ -257,7 +258,7 @@ function  SMD10_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD11_leader(xu, xl)
 
@@ -281,7 +282,7 @@ function  SMD11_leader(xu, xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD12_leader(xu, xl)
 
@@ -317,7 +318,7 @@ function  SMD12_leader(xu, xl)
 
 
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 
 
@@ -342,7 +343,7 @@ function  SMD1_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD2_follower(xu,xl)
 
@@ -365,7 +366,7 @@ function  SMD2_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD3_follower(xu,xl)
 
@@ -387,7 +388,7 @@ function  SMD3_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD4_follower(xu,xl)
 
@@ -411,7 +412,7 @@ function  SMD4_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD5_follower(xu,xl)
 
@@ -439,7 +440,7 @@ function  SMD5_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD6_follower(xu,xl)
 
@@ -468,7 +469,7 @@ function  SMD6_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD7_follower(xu,xl)
 
@@ -491,7 +492,7 @@ function  SMD7_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD8_follower(xu,xl)
 
@@ -519,7 +520,7 @@ function  SMD8_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD9_follower(xu,xl)
 
@@ -544,7 +545,7 @@ function  SMD9_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD10_follower(xu,xl)
 
@@ -573,7 +574,7 @@ function  SMD10_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD11_follower(xu,xl)
 
@@ -597,7 +598,7 @@ function  SMD11_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end
 function  SMD12_follower(xu,xl)
 
@@ -627,5 +628,5 @@ function  SMD12_follower(xu,xl)
     equalityConstrVals = [0.0]
     #####################################
 
-    functionValue,equalityConstrVals,inequalityConstrVals
+    functionValue,inequalityConstrVals,equalityConstrVals
 end

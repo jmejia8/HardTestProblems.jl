@@ -3,17 +3,15 @@ using Test
 
 
 @testset "SMD" begin
-    for i in 1:12
-        
-        for (ulDim, llDim) in zip([2,5,10], [3,5,10])
+    for i in 1:12        
+        for (uldim, lldim) in zip([2,5,10], [3,5,10])
             # objective function and problem configuration
-            F, f, conf = SMD_get_problem(i, ulDim = ulDim, llDim = llDim)
-            cond1 = length(conf[:xmin]) == ulDim == length(conf[:xmax])
-            cond2 = length(conf[:ymin]) == llDim == length(conf[:ymax])
-            @test cond1 && cond2
-        end
-        
-        
+            F, f, conf = SMD_get_problem(i, uldim = uldim, lldim = lldim)
+            cond1 = length(conf[:xmin]) == uldim == length(conf[:xmax])
+            cond2 = length(conf[:ymin]) == lldim == length(conf[:ymax])
+            cond3 = length(conf[:xbest]) == uldim && length(conf[:ybest]) == lldim
+            @test cond1 && cond2 && cond3
+        end 
     end
 end
 
