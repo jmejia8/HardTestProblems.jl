@@ -2,6 +2,21 @@ using HardTestProblems
 using Test
 
 
+@testset "PMM" begin
+    for i in 1:6
+        for (uldim, lldim) in zip([2,5,10], [3,5,10])
+            # objective function and problem configuration
+            F, f, conf = PMM_get_problem(i, uldim = uldim, lldim = lldim)
+            cond1 = length(conf[:xmin]) == uldim == length(conf[:xmax])
+            cond2 = length(conf[:ymin]) == lldim == length(conf[:ymax])
+            cond3 = length(conf[:xbest]) == uldim && length(conf[:ybest]) == lldim
+            cond4 = conf[:leader_optimum] ≈ 0 && conf[:follower_optimum] ≈ 0
+            !cond4 && display(conf)
+            @test cond1 && cond2 && cond3 && cond4
+        end 
+    end
+end
+
 @testset "SMD" begin
     for i in 1:12        
         for (uldim, lldim) in zip([2,5,10], [3,5,10])

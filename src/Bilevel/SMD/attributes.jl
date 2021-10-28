@@ -286,7 +286,7 @@ Dict{Symbol, Any} with 14 entries:
 julia> F(conf[:xbest], conf[:ybest]) # upper level function
 (3.0, [-0.0, -0.0, -1.0], [0.0])
 
-julia> f(conf[:xbest], conf[:ybest]) # upper level function
+julia> f(conf[:xbest], conf[:ybest]) # lower level function
 (4.0, [-0.0, -0.0, -0.0], [0.0])
 
 ```

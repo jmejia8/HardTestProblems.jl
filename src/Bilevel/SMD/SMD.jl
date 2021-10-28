@@ -18,8 +18,8 @@ function SMD1_leader(xu, xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
     #
     # functionValue,equalityConstrVals,inequalityConstrVals
@@ -42,8 +42,8 @@ function SMD2_leader(xu, xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -66,8 +66,8 @@ function  SMD3_leader(xu, xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -89,8 +89,8 @@ function  SMD4_leader(xu, xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -118,8 +118,8 @@ function  SMD5_leader(xu, xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -142,8 +142,8 @@ function  SMD6_leader(xu, xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -166,8 +166,8 @@ function  SMD7_leader(xu, xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -194,8 +194,8 @@ function  SMD8_leader(xu, xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -219,7 +219,7 @@ function  SMD9_leader(xu, xl)
     #Write the constraints here
     inequalityConstrVals = [sum(xu1.^2)+sum(xu2.^2) - floor.(sum(xu1.^2)+sum(xu2.^2)+0.5)]
     inequalityConstrVals = - inequalityConstrVals
-    equalityConstrVals = [0.0]
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -255,7 +255,7 @@ function  SMD10_leader(xu, xl)
     end
 
     inequalityConstrVals = - inequalityConstrVals
-    equalityConstrVals = [0.0]
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -279,7 +279,7 @@ function  SMD11_leader(xu, xl)
     #Write the constraints here
     inequalityConstrVals = xu2 .- 1/sqrt(r) .- log.(xl2)
     inequalityConstrVals = - inequalityConstrVals
-    equalityConstrVals = [0.0]
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -314,7 +314,7 @@ function  SMD12_leader(xu, xl)
 
     inequalityConstrVals = vcat(inequalityConstrVals, xu2 - tan.(xl2))
     inequalityConstrVals = - inequalityConstrVals
-    equalityConstrVals = [0.0]
+    equalityConstrVals = zeros(0)
 
 
 
@@ -339,8 +339,8 @@ function  SMD1_follower(xu,xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -362,8 +362,8 @@ function  SMD2_follower(xu,xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -384,8 +384,8 @@ function  SMD3_follower(xu,xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -408,8 +408,8 @@ function  SMD4_follower(xu,xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -436,8 +436,8 @@ function  SMD5_follower(xu,xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -465,8 +465,8 @@ function  SMD6_follower(xu,xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -488,8 +488,8 @@ function  SMD7_follower(xu,xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -516,8 +516,8 @@ function  SMD8_follower(xu,xl)
 
     #####################################
     #Write the constraints here
-    inequalityConstrVals = [0.0]
-    equalityConstrVals = [0.0]
+    inequalityConstrVals = zeros(0)
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -542,7 +542,7 @@ function  SMD9_follower(xu,xl)
     #Write the constraints here
     inequalityConstrVals = [sum(xl1.^2)+sum(xl2.^2) - floor.(sum(xl1.^2)+sum(xl2.^2)+0.5)]
     inequalityConstrVals = - inequalityConstrVals
-    equalityConstrVals = [0.0]
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -571,7 +571,7 @@ function  SMD10_follower(xu,xl)
         inequalityConstrVals[i] = xl1[i] + xl1[i].^3 - sum(xl1.^3)
     end
     inequalityConstrVals = - inequalityConstrVals
-    equalityConstrVals = [0.0]
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -595,7 +595,7 @@ function  SMD11_follower(xu,xl)
     #Write the constraints here
     inequalityConstrVals = [sum((xu2 - log.(xl2)).^2) - 1]
     inequalityConstrVals = - inequalityConstrVals
-    equalityConstrVals = [0.0]
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals
@@ -625,7 +625,7 @@ function  SMD12_follower(xu,xl)
     end
     inequalityConstrVals[q+1] = sum((xu2 - tan.(xl2)).^2) - 1
     inequalityConstrVals = - inequalityConstrVals
-    equalityConstrVals = [0.0]
+    equalityConstrVals = zeros(0)
     #####################################
 
     functionValue,inequalityConstrVals,equalityConstrVals

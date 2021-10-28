@@ -1,18 +1,25 @@
 # Hard Test Problems
 
 This package implements challenging test problems for testing metaheuristics (evolutionary
-algorithms) for single and multi-objective optimization.
+algorithms) for single, multi-objective and bilevel optimization.
 
 
 [![Build Status](https://github.com/jmejia8/HardTestProblems.jl/workflows/CI/badge.svg)](https://github.com/jmejia8/HardTestProblems.jl/actions)
 [![Coverage](https://codecov.io/gh/jmejia8/HardTestProblems.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/jmejia8/HardTestProblems.jl)
 
+
 ## Installation
 
-This package can be installed in Julia (v1.1 or latter) via `Pkg` API:
+Open the Julia (Julia 1.1 or Later) REPL and press `]` to open the Pkg prompt. To add this package, use the add command:
+
+```
+pkg> add HardTestProblems
+```
+
+Or, equivalently, via the `Pkg` API:
 
 ```julia
-julia> import Pkg; Pkg.add(url="https://github.com/jmejia8/HardTestProblems.jl.git")
+julia> import Pkg; Pkg.add("HardTestProblems")
 ```
 
 ## Benchmarks
@@ -21,7 +28,8 @@ julia> import Pkg; Pkg.add(url="https://github.com/jmejia8/HardTestProblems.jl.g
       Real world multi-objective Constrained Optimization Test Suite.
 - [x] [CEC2020-BC-SO](https://github.com/P-N-Suganthan/2020-Bound-Constrained-Opt-Benchmark)
       Bound-constrained test problems for single-objective optimization.
-- [x] [SMD](#) Scalable test problems for single-objective bilevel optimization.
+- [x] [SMD](https://doi.org/10.1109/CEC.2012.6256557) Scalable test problems for single-objective bilevel optimization.
+- [x] [PMM](https://doi.org/10.1016/j.amc.2021.126577) Pseudo-feasible solutions in evolutionary bilevel optimization: Test problems and performance assessment
 - [ ] [CEC2017](https://github.com/P-N-Suganthan/CEC2017)   Competition on Constrained Real-Parameter Optimization.
 
 ## Usage
@@ -96,3 +104,35 @@ julia> f(conf[:xmin])
 ```
 
 Each problems is defined for dimension `n in [2,5,10,15,20,30,50,100]`.
+
+### SMD
+
+```julia
+julia> using HardTestProblems
+
+julia> F, f, conf = SMD_get_problem(12,uldim=2,lldim=3); # for SMD12
+
+julia> conf
+Dict{Symbol, Any} with 14 entries:
+  :follower_optimum      => 4.0
+  :n_inequality_follower => 3
+  :xbest                 => [1.0, 1.0]
+  :n_equality_follower   => 0
+  :lldim                 => 3
+  :uldim                 => 2
+  :n_equality_leader     => 0
+  :n_inequality_leader   => 3
+  :xmin                  => [-5.0, -1.0]
+  :leader_optimum        => 3.0
+  :xmax                  => [10.0, 1.0]
+  :ymax                  => [10.0, 10.0, 0.785388]
+  :ymin                  => [-5.0, -5.0, -0.785388]
+  :ybest                 => [1.0, 1.0, 0.0]
+
+julia> F(conf[:xbest], conf[:ybest]) # upper level function
+(3.0, [-0.0, -0.0, -1.0], [0.0])
+
+julia> f(conf[:xbest], conf[:ybest]) # lower level function
+(4.0, [-0.0, -0.0, -0.0], [0.0])
+
+```
