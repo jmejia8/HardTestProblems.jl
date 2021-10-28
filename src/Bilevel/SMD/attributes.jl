@@ -256,7 +256,7 @@ end
 """
     SMD_get_problem(fnum; uldim = 2, lldim = 3)
 
-Return upper and lower level objective function, and the problem configuration in
+Return upper and lower level objective functions, and the problem configuration in
 a dictionary.
 
 ### Example
@@ -317,6 +317,7 @@ function SMD_get_problem(fnum; uldim = 2, lldim = 3)
                 :follower_optimum => fmin,
                 :lldim => lldim,
                 :uldim => uldim,
+                :problem => "SMD" * string(fnum),
                 :n_inequality_leader => length(G),
                 :n_equality_leader => 0,
                 :n_inequality_follower => length(g),

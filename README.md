@@ -28,8 +28,8 @@ julia> import Pkg; Pkg.add("HardTestProblems")
       Real world multi-objective Constrained Optimization Test Suite.
 - [x] [CEC2020-BC-SO](https://github.com/P-N-Suganthan/2020-Bound-Constrained-Opt-Benchmark)
       Bound-constrained test problems for single-objective optimization.
-- [x] [SMD](https://doi.org/10.1109/CEC.2012.6256557) Scalable test problems for single-objective bilevel optimization.
 - [x] [PMM](https://doi.org/10.1016/j.amc.2021.126577) Pseudo-feasible solutions in evolutionary bilevel optimization: Test problems and performance assessment
+- [x] [SMD](https://doi.org/10.1109/CEC.2012.6256557) Scalable test problems for single-objective bilevel optimization.
 - [ ] [CEC2017](https://github.com/P-N-Suganthan/CEC2017)   Competition on Constrained Real-Parameter Optimization.
 
 ## Usage
@@ -105,6 +105,34 @@ julia> f(conf[:xmin])
 
 Each problems is defined for dimension `n in [2,5,10,15,20,30,50,100]`.
 
+### PMM
+
+
+```
+julia> using HardTestProblems
+
+julia> F, f, conf = PMM_get_problem(2,uldim=2,lldim=3);
+
+julia> conf
+Dict{Symbol, Any} with 15 entries:
+  :follower_optimum      => 0.0
+  :n_inequality_follower => 0
+  :xbest                 => [0.0, 0.0]
+  :problem               => "PMM2"
+  :n_equality_follower   => 0
+  :lldim                 => 3
+  :uldim                 => 2
+  :n_equality_leader     => 0
+  :n_inequality_leader   => 0
+  :xmin                  => [-10.0, -10.0]
+  :leader_optimum        => 0.0
+  :xmax                  => [10.0, 10.0]
+  :ymax                  => [10.0, 10.0, 10.0]
+  :ymin                  => [-10.0, -10.0, -10.0]
+  :ybest                 => [0.0, 1.41421, 1.73205]
+
+```
+
 ### SMD
 
 ```julia
@@ -136,3 +164,4 @@ julia> f(conf[:xbest], conf[:ybest]) # lower level function
 (4.0, [-0.0, -0.0, -0.0], [0.0])
 
 ```
+
